@@ -57,7 +57,7 @@ if KSDeviceAuthenticator.shared.faceIDAvailable() {
 ### Check for Touch ID
 - Check if device supports touch id authentication or not.
 ```swift
-if BioMetricAuthenticator.shared.touchIDAvailable() {
+if KSDeviceAuthenticator.shared.touchIDAvailable() {
     // device supports touch id authentication
 }
 ```
