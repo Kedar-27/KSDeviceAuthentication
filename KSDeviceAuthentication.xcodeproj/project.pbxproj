@@ -12,6 +12,9 @@
 		97A92E1B2387ED5D0051C1ED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97A92E192387ED5D0051C1ED /* Main.storyboard */; };
 		97A92E1D2387ED620051C1ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97A92E1C2387ED620051C1ED /* Assets.xcassets */; };
 		97A92E202387ED620051C1ED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97A92E1E2387ED620051C1ED /* LaunchScreen.storyboard */; };
+		97E577FD2387F5DD00EBA422 /* AuthenticationErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E577FB2387F5DD00EBA422 /* AuthenticationErrors.swift */; };
+		97E577FE2387F5DD00EBA422 /* KSDeviceAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E577FC2387F5DD00EBA422 /* KSDeviceAuthenticator.swift */; };
+		97E578002387F6E900EBA422 /* KSDeviceAuthenticationConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E577FF2387F6E900EBA422 /* KSDeviceAuthenticationConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +25,9 @@
 		97A92E1C2387ED620051C1ED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97A92E1F2387ED620051C1ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97A92E212387ED620051C1ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		97E577FB2387F5DD00EBA422 /* AuthenticationErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationErrors.swift; sourceTree = "<group>"; };
+		97E577FC2387F5DD00EBA422 /* KSDeviceAuthenticator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KSDeviceAuthenticator.swift; sourceTree = "<group>"; };
+		97E577FF2387F6E900EBA422 /* KSDeviceAuthenticationConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KSDeviceAuthenticationConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +74,9 @@
 		97A92E272387EDAD0051C1ED /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				97E577FF2387F6E900EBA422 /* KSDeviceAuthenticationConstants.swift */,
+				97E577FB2387F5DD00EBA422 /* AuthenticationErrors.swift */,
+				97E577FC2387F5DD00EBA422 /* KSDeviceAuthenticator.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -143,7 +152,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97E578002387F6E900EBA422 /* KSDeviceAuthenticationConstants.swift in Sources */,
+				97E577FE2387F5DD00EBA422 /* KSDeviceAuthenticator.swift in Sources */,
 				97A92E182387ED5D0051C1ED /* ViewController.swift in Sources */,
+				97E577FD2387F5DD00EBA422 /* AuthenticationErrors.swift in Sources */,
 				97A92E142387ED5D0051C1ED /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -289,6 +301,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 36DYQ3B3G4;
 				INFOPLIST_FILE = KSDeviceAuthentication/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -307,6 +320,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 36DYQ3B3G4;
 				INFOPLIST_FILE = KSDeviceAuthentication/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
