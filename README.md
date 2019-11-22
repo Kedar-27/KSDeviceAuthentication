@@ -176,7 +176,8 @@ KSDeviceAuthenticator.authenticateWithBioMetrics(reason: "") { [weak self] (resu
     }
 }
 ```
-
+## Credits
+https://github.com/rushisangani/BiometricAuthentication
 
 ## License
 
