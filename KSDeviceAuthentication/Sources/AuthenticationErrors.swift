@@ -30,7 +30,7 @@ import LocalAuthentication
 /// Authentication Errors
 public enum AuthenticationError: Error {
     
-    case failed, canceledByUser, fallback, canceledBySystem, passcodeNotSet, biometryNotAvailable, biometryNotEnrolled, biometryLockout, other
+    case failed, canceledByUser, fallback, canceledBySystem, passcodeNotSet, biometryNotAvailable, biometryNotEnrolled, biometryLockedout, other
     
     public static func initWithError(_ error: LAError) -> AuthenticationError {
         switch Int32(error.errorCode) {
@@ -50,7 +50,7 @@ public enum AuthenticationError: Error {
         case kLAErrorBiometryNotEnrolled:
             return biometryNotEnrolled
         case kLAErrorBiometryLockout:
-            return biometryLockout
+            return biometryLockedout
         default:
            return other
         }
@@ -58,21 +58,21 @@ public enum AuthenticationError: Error {
     
     // get error message based on type
     public func message() -> String {
-        let authentication = KSDeviceAuthenticator.shared
+        let isFaceIdDevice = BioMetricAuthenticator.shared.isFaceIdDevice()
         
         switch self {
         case .canceledByUser, .fallback, .canceledBySystem:
             return ""
         case .passcodeNotSet:
-            return authentication.faceIDAvailable() ? kSetPasscodeToUseFaceID : kSetPasscodeToUseTouchID
+            return isFaceIdDevice ? kSetPasscodeToUseFaceID : kSetPasscodeToUseTouchID
         case .biometryNotAvailable:
             return kBiometryNotAvailableReason
         case .biometryNotEnrolled:
-            return authentication.faceIDAvailable() ? kNoFaceIdentityEnrolled : kNoFingerprintEnrolled
-        case .biometryLockout:
-            return authentication.faceIDAvailable() ? kFaceIdPasscodeAuthenticationReason : kTouchIdPasscodeAuthenticationReason
+            return isFaceIdDevice ? kNoFaceIdentityEnrolled : kNoFingerprintEnrolled
+        case .biometryLockedout:
+            return isFaceIdDevice ? kFaceIdPasscodeAuthenticationReason : kTouchIdPasscodeAuthenticationReason
         default:
-            return authentication.faceIDAvailable() ? kDefaultFaceIDAuthenticationFailedReason : kDefaultTouchIDAuthenticationFailedReason
+            return isFaceIdDevice ? kDefaultFaceIDAuthenticationFailedReason : kDefaultTouchIDAuthenticationFailedReason
         }
     }
 }

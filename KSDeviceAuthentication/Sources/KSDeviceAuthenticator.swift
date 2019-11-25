@@ -35,22 +35,21 @@ open class KSDeviceAuthenticator: NSObject {
     
     // MARK: - Private
     private override init() {}
-    private lazy var context: LAContext? = {
-        return LAContext()
-    }()
+     private lazy var context: LAContext? = {
+         return LAContext()
+     }()
 
-    // MARK: - Public
-    public var allowableReuseDuration: TimeInterval? = nil {
-        didSet {
-            guard let duration = allowableReuseDuration else {
-                return
-            }
-            if #available(iOS 9.0, *) {
-                self.context?.touchIDAuthenticationAllowableReuseDuration = duration
-            }
-        }
-    }
-}
+     // MARK: - Public
+     public var allowableReuseDuration: TimeInterval? = nil {
+         didSet {
+             guard let duration = allowableReuseDuration else {
+                 return
+             }
+             if #available(iOS 9.0, *) {
+                 self.context?.touchIDAuthenticationAllowableReuseDuration = duration
+             }
+         }
+     }}
 
 // MARK:- Public
 
@@ -114,16 +113,19 @@ public extension KSDeviceAuthenticator {
         }
     }
     
-    /// checks if device supports face id authentication
+    /// checks if device supports face id and authentication can be done
     func faceIDAvailable() -> Bool {
+        let context = LAContext()
+        var error: NSError?
+        
+        let canEvaluate = context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: &error)
         if #available(iOS 11.0, *) {
-            let context = LAContext()
-            return (context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: nil) && context.biometryType == .faceID)
+            return canEvaluate && context.biometryType == .faceID
         }
-        return false
+        return canEvaluate
     }
     
-    /// checks if device supports touch id authentication
+    /// checks if device supports touch id and authentication can be done
     func touchIDAvailable() -> Bool {
         let context = LAContext()
         var error: NSError?
@@ -134,41 +136,52 @@ public extension KSDeviceAuthenticator {
         }
         return canEvaluate
     }
-}
+    
+    /// checks if device has faceId
+    /// this is added to identify if device has faceId or touchId
+    /// note: this will not check if devices can perform biometric authentication
+    func isFaceIdDevice() -> Bool {
+        let context = LAContext()
+        _ = context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: nil)
+        if #available(iOS 11.0, *) {
+            return context.biometryType == .faceID
+        }
+        return false
+    }}
 
 // MARK:- Private
 extension KSDeviceAuthenticator {
 
-    /// get authentication reason to show while authentication
-    private func defaultBiometricAuthenticationReason() -> String {
-        return faceIDAvailable() ? kFaceIdAuthenticationReason : kTouchIdAuthenticationReason
-    }
-    
-    /// get passcode authentication reason to show while entering device passcode after multiple failed attempts.
-    private func defaultPasscodeAuthenticationReason() -> String {
-        return faceIDAvailable() ? kFaceIdPasscodeAuthenticationReason : kTouchIdPasscodeAuthenticationReason
-    }
-    
-    /// checks if allowableReuseDuration is set
-    private func isReuseDurationSet() -> Bool {
-        guard allowableReuseDuration != nil else {
-            return false
-        }
-        return true
-    }
-    
-    /// evaluate policy
-    private func evaluate(policy: LAPolicy, with context: LAContext, reason: String, completion: @escaping (Result<Bool, AuthenticationError>) -> ()) {
-        
-        context.evaluatePolicy(policy, localizedReason: reason) { (success, err) in
-            DispatchQueue.main.async {
-                if success {
-                    completion(.success(true))
-                }else {
-                    let errorType = AuthenticationError.initWithError(err as! LAError)
-                    completion(.failure(errorType))
-                }
-            }
-        }
-    }
+     /// get authentication reason to show while authentication
+       private func defaultBiometricAuthenticationReason() -> String {
+           return faceIDAvailable() ? kFaceIdAuthenticationReason : kTouchIdAuthenticationReason
+       }
+       
+       /// get passcode authentication reason to show while entering device passcode after multiple failed attempts.
+       private func defaultPasscodeAuthenticationReason() -> String {
+           return faceIDAvailable() ? kFaceIdPasscodeAuthenticationReason : kTouchIdPasscodeAuthenticationReason
+       }
+       
+       /// checks if allowableReuseDuration is set
+       private func isReuseDurationSet() -> Bool {
+           guard allowableReuseDuration != nil else {
+               return false
+           }
+           return true
+       }
+       
+       /// evaluate policy
+       private func evaluate(policy: LAPolicy, with context: LAContext, reason: String, completion: @escaping (Result<Bool, AuthenticationError>) -> ()) {
+           
+           context.evaluatePolicy(policy, localizedReason: reason) { (success, err) in
+               DispatchQueue.main.async {
+                   if success {
+                       completion(.success(true))
+                   }else {
+                       let errorType = AuthenticationError.initWithError(err as! LAError)
+                       completion(.failure(errorType))
+                   }
+               }
+           }
+       }
 }
