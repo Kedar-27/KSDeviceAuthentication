@@ -58,7 +58,7 @@ public enum AuthenticationError: Error {
     
     // get error message based on type
     public func message() -> String {
-        let isFaceIdDevice = BioMetricAuthenticator.shared.isFaceIdDevice()
+        let isFaceIdDevice = KSDeviceAuthenticator.shared.isFaceIdDevice()
         
         switch self {
         case .canceledByUser, .fallback, .canceledBySystem:
